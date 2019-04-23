@@ -1,0 +1,36 @@
+{
+  "name": "sendict",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "env-cmd .env nodemon --ext js,graphql --exec babel-node src/server.js",
+    "prisma-generate": "env-cmd .env prisma generate",
+    "prisma-deploy": "env-cmd .env prisma deploy",
+    "prisma": "npm run prisma-deploy && npm run prisma-generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayhchoi/sendict.git"
+  },
+  "author": "Jay Choi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jayhchoi/sendict/issues"
+  },
+  "homepage": "https://github.com/jayhchoi/sendict#readme",
+  "dependencies": {
+    "env-cmd": "^8.0.2",
+    "graphql-yoga": "^1.17.4",
+    "jsonwebtoken": "^8.5.1",
+    "merge-graphql-schemas": "^1.5.8",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.2",
+    "nodemon": "^1.18.10"
+  }
+}

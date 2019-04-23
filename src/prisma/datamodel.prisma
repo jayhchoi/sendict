@@ -1,0 +1,34 @@
+type User {
+  id: ID! @unique
+  email: String! @unique
+  name: String!
+  #
+  sentences: [Sentence!]! @relation(name: "SentencesToUser" onDelete: CASCADE)
+  likes: [Like!]! @relation(name: "LikestoUser" onDelete: CASCADE)
+  #
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Sentence {
+  id: ID! @unique
+  english: String!
+  korean: String!
+  tags: [String!]!
+  #
+  user: User! @relation(name: "SentencesToUser")
+  likes: [Like!]! @relation(name: "LikestoSentence" onDelete: CASCADE)
+  #
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Like {
+  id: ID! @unique
+  #
+  user: User! @relation(name: "LikesToUser")
+  sentence: Sentence! @relation(name: "LikestoSentence")
+  #
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
