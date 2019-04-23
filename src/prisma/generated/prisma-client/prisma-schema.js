@@ -287,7 +287,8 @@ type Sentence {
   id: ID!
   english: String!
   korean: String!
-  tags: [String!]!
+  source: String
+  label: String
   user: User!
   likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
   createdAt: DateTime!
@@ -303,7 +304,8 @@ type SentenceConnection {
 input SentenceCreateInput {
   english: String!
   korean: String!
-  tags: SentenceCreatetagsInput
+  source: String
+  label: String
   user: UserCreateOneWithoutSentencesInput!
   likes: LikeCreateManyWithoutSentenceInput
 }
@@ -318,21 +320,19 @@ input SentenceCreateOneWithoutLikesInput {
   connect: SentenceWhereUniqueInput
 }
 
-input SentenceCreatetagsInput {
-  set: [String!]
-}
-
 input SentenceCreateWithoutLikesInput {
   english: String!
   korean: String!
-  tags: SentenceCreatetagsInput
+  source: String
+  label: String
   user: UserCreateOneWithoutSentencesInput!
 }
 
 input SentenceCreateWithoutUserInput {
   english: String!
   korean: String!
-  tags: SentenceCreatetagsInput
+  source: String
+  label: String
   likes: LikeCreateManyWithoutSentenceInput
 }
 
@@ -348,6 +348,10 @@ enum SentenceOrderByInput {
   english_DESC
   korean_ASC
   korean_DESC
+  source_ASC
+  source_DESC
+  label_ASC
+  label_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -358,7 +362,8 @@ type SentencePreviousValues {
   id: ID!
   english: String!
   korean: String!
-  tags: [String!]!
+  source: String
+  label: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -406,6 +411,34 @@ input SentenceScalarWhereInput {
   korean_not_starts_with: String
   korean_ends_with: String
   korean_not_ends_with: String
+  source: String
+  source_not: String
+  source_in: [String!]
+  source_not_in: [String!]
+  source_lt: String
+  source_lte: String
+  source_gt: String
+  source_gte: String
+  source_contains: String
+  source_not_contains: String
+  source_starts_with: String
+  source_not_starts_with: String
+  source_ends_with: String
+  source_not_ends_with: String
+  label: String
+  label_not: String
+  label_in: [String!]
+  label_not_in: [String!]
+  label_lt: String
+  label_lte: String
+  label_gt: String
+  label_gte: String
+  label_contains: String
+  label_not_contains: String
+  label_starts_with: String
+  label_not_starts_with: String
+  label_ends_with: String
+  label_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -448,7 +481,8 @@ input SentenceSubscriptionWhereInput {
 input SentenceUpdateInput {
   english: String
   korean: String
-  tags: SentenceUpdatetagsInput
+  source: String
+  label: String
   user: UserUpdateOneRequiredWithoutSentencesInput
   likes: LikeUpdateManyWithoutSentenceInput
 }
@@ -456,13 +490,15 @@ input SentenceUpdateInput {
 input SentenceUpdateManyDataInput {
   english: String
   korean: String
-  tags: SentenceUpdatetagsInput
+  source: String
+  label: String
 }
 
 input SentenceUpdateManyMutationInput {
   english: String
   korean: String
-  tags: SentenceUpdatetagsInput
+  source: String
+  label: String
 }
 
 input SentenceUpdateManyWithoutUserInput {
@@ -489,21 +525,19 @@ input SentenceUpdateOneRequiredWithoutLikesInput {
   connect: SentenceWhereUniqueInput
 }
 
-input SentenceUpdatetagsInput {
-  set: [String!]
-}
-
 input SentenceUpdateWithoutLikesDataInput {
   english: String
   korean: String
-  tags: SentenceUpdatetagsInput
+  source: String
+  label: String
   user: UserUpdateOneRequiredWithoutSentencesInput
 }
 
 input SentenceUpdateWithoutUserDataInput {
   english: String
   korean: String
-  tags: SentenceUpdatetagsInput
+  source: String
+  label: String
   likes: LikeUpdateManyWithoutSentenceInput
 }
 
@@ -566,6 +600,34 @@ input SentenceWhereInput {
   korean_not_starts_with: String
   korean_ends_with: String
   korean_not_ends_with: String
+  source: String
+  source_not: String
+  source_in: [String!]
+  source_not_in: [String!]
+  source_lt: String
+  source_lte: String
+  source_gt: String
+  source_gte: String
+  source_contains: String
+  source_not_contains: String
+  source_starts_with: String
+  source_not_starts_with: String
+  source_ends_with: String
+  source_not_ends_with: String
+  label: String
+  label_not: String
+  label_in: [String!]
+  label_not_in: [String!]
+  label_lt: String
+  label_lte: String
+  label_gt: String
+  label_gte: String
+  label_contains: String
+  label_not_contains: String
+  label_starts_with: String
+  label_not_starts_with: String
+  label_ends_with: String
+  label_not_ends_with: String
   user: UserWhereInput
   likes_every: LikeWhereInput
   likes_some: LikeWhereInput
@@ -604,6 +666,9 @@ type Subscription {
 type User {
   id: ID!
   email: String!
+  username: String!
+  avatar: String!
+  password: String!
   name: String!
   sentences(where: SentenceWhereInput, orderBy: SentenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sentence!]
   likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
@@ -619,6 +684,9 @@ type UserConnection {
 
 input UserCreateInput {
   email: String!
+  username: String!
+  avatar: String!
+  password: String!
   name: String!
   sentences: SentenceCreateManyWithoutUserInput
   likes: LikeCreateManyWithoutUserInput
@@ -636,12 +704,18 @@ input UserCreateOneWithoutSentencesInput {
 
 input UserCreateWithoutLikesInput {
   email: String!
+  username: String!
+  avatar: String!
+  password: String!
   name: String!
   sentences: SentenceCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutSentencesInput {
   email: String!
+  username: String!
+  avatar: String!
+  password: String!
   name: String!
   likes: LikeCreateManyWithoutUserInput
 }
@@ -656,6 +730,12 @@ enum UserOrderByInput {
   id_DESC
   email_ASC
   email_DESC
+  username_ASC
+  username_DESC
+  avatar_ASC
+  avatar_DESC
+  password_ASC
+  password_DESC
   name_ASC
   name_DESC
   createdAt_ASC
@@ -667,6 +747,9 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   email: String!
+  username: String!
+  avatar: String!
+  password: String!
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -692,6 +775,9 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateInput {
   email: String
+  username: String
+  avatar: String
+  password: String
   name: String
   sentences: SentenceUpdateManyWithoutUserInput
   likes: LikeUpdateManyWithoutUserInput
@@ -699,6 +785,9 @@ input UserUpdateInput {
 
 input UserUpdateManyMutationInput {
   email: String
+  username: String
+  avatar: String
+  password: String
   name: String
 }
 
@@ -718,12 +807,18 @@ input UserUpdateOneRequiredWithoutSentencesInput {
 
 input UserUpdateWithoutLikesDataInput {
   email: String
+  username: String
+  avatar: String
+  password: String
   name: String
   sentences: SentenceUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutSentencesDataInput {
   email: String
+  username: String
+  avatar: String
+  password: String
   name: String
   likes: LikeUpdateManyWithoutUserInput
 }
@@ -767,6 +862,48 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
   name: String
   name_not: String
   name_in: [String!]
@@ -811,6 +948,7 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  username: String
 }
 `
       }

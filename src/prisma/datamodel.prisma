@@ -1,6 +1,9 @@
 type User {
   id: ID! @unique
   email: String! @unique
+  username: String! @unique
+  avatar: String!
+  password: String!
   name: String!
   #
   sentences: [Sentence!]! @relation(name: "SentencesToUser" onDelete: CASCADE)
@@ -14,7 +17,8 @@ type Sentence {
   id: ID! @unique
   english: String!
   korean: String!
-  tags: [String!]!
+  source: String
+  label: String
   #
   user: User! @relation(name: "SentencesToUser")
   likes: [Like!]! @relation(name: "LikestoSentence" onDelete: CASCADE)
@@ -22,6 +26,11 @@ type Sentence {
   createdAt: DateTime!
   updatedAt: DateTime!
 }
+
+# type Tag {
+#   id: ID! @unique
+#   name: String! @unique
+# }
 
 type Like {
   id: ID! @unique

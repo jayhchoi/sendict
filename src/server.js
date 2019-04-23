@@ -20,5 +20,5 @@ const options = {
 server.use(logger('dev'))
 
 server.start(options, () =>
-  console.log(`✅  Server running on port ${process.env.PORT}`)
+  console.log(`✅  Server running on port ${options.port}`)
 )

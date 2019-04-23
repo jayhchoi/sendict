@@ -2,9 +2,10 @@
   "name": "sendict",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "dev": "env-cmd .env nodemon --ext js,graphql --exec babel-node src/server.js",
+    "prisma-reset": "env-cmd .env prisma reset",
     "prisma-generate": "env-cmd .env prisma generate",
     "prisma-deploy": "env-cmd .env prisma deploy",
     "prisma": "npm run prisma-deploy && npm run prisma-generate"
@@ -20,11 +21,15 @@
   },
   "homepage": "https://github.com/jayhchoi/sendict#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "env-cmd": "^8.0.2",
+    "graphql-tools": "^4.0.4",
     "graphql-yoga": "^1.17.4",
+    "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "merge-graphql-schemas": "^1.5.8",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "prisma-client-lib": "^1.31.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

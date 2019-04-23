@@ -1,0 +1,11 @@
+type Mutation {
+    addSentence(data: SentenceCreateInput!): Sentence!
+}
+
+input SentenceCreateInput {
+  english: String!
+  korean: String!
+  #
+  source: String
+  label: String
+}

@@ -180,6 +180,10 @@ export type SentenceOrderByInput =
   | "english_DESC"
   | "korean_ASC"
   | "korean_DESC"
+  | "source_ASC"
+  | "source_DESC"
+  | "label_ASC"
+  | "label_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -198,6 +202,12 @@ export type UserOrderByInput =
   | "id_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "username_ASC"
+  | "username_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
+  | "password_ASC"
+  | "password_DESC"
   | "name_ASC"
   | "name_DESC"
   | "createdAt_ASC"
@@ -254,6 +264,34 @@ export interface SentenceWhereInput {
   korean_not_starts_with?: String;
   korean_ends_with?: String;
   korean_not_ends_with?: String;
+  source?: String;
+  source_not?: String;
+  source_in?: String[] | String;
+  source_not_in?: String[] | String;
+  source_lt?: String;
+  source_lte?: String;
+  source_gt?: String;
+  source_gte?: String;
+  source_contains?: String;
+  source_not_contains?: String;
+  source_starts_with?: String;
+  source_not_starts_with?: String;
+  source_ends_with?: String;
+  source_not_ends_with?: String;
+  label?: String;
+  label_not?: String;
+  label_in?: String[] | String;
+  label_not_in?: String[] | String;
+  label_lt?: String;
+  label_lte?: String;
+  label_gt?: String;
+  label_gte?: String;
+  label_contains?: String;
+  label_not_contains?: String;
+  label_starts_with?: String;
+  label_not_starts_with?: String;
+  label_ends_with?: String;
+  label_not_ends_with?: String;
   user?: UserWhereInput;
   likes_every?: LikeWhereInput;
   likes_some?: LikeWhereInput;
@@ -308,6 +346,48 @@ export interface UserWhereInput {
   email_not_starts_with?: String;
   email_ends_with?: String;
   email_not_ends_with?: String;
+  username?: String;
+  username_not?: String;
+  username_in?: String[] | String;
+  username_not_in?: String[] | String;
+  username_lt?: String;
+  username_lte?: String;
+  username_gt?: String;
+  username_gte?: String;
+  username_contains?: String;
+  username_not_contains?: String;
+  username_starts_with?: String;
+  username_not_starts_with?: String;
+  username_ends_with?: String;
+  username_not_ends_with?: String;
+  avatar?: String;
+  avatar_not?: String;
+  avatar_in?: String[] | String;
+  avatar_not_in?: String[] | String;
+  avatar_lt?: String;
+  avatar_lte?: String;
+  avatar_gt?: String;
+  avatar_gte?: String;
+  avatar_contains?: String;
+  avatar_not_contains?: String;
+  avatar_starts_with?: String;
+  avatar_not_starts_with?: String;
+  avatar_ends_with?: String;
+  avatar_not_ends_with?: String;
+  password?: String;
+  password_not?: String;
+  password_in?: String[] | String;
+  password_not_in?: String[] | String;
+  password_lt?: String;
+  password_lte?: String;
+  password_gt?: String;
+  password_gte?: String;
+  password_contains?: String;
+  password_not_contains?: String;
+  password_starts_with?: String;
+  password_not_starts_with?: String;
+  password_ends_with?: String;
+  password_not_ends_with?: String;
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -394,6 +474,7 @@ export type SentenceWhereUniqueInput = AtLeastOne<{
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
+  username?: String;
 }>;
 
 export interface LikeCreateInput {
@@ -408,6 +489,9 @@ export interface UserCreateOneWithoutLikesInput {
 
 export interface UserCreateWithoutLikesInput {
   email: String;
+  username: String;
+  avatar: String;
+  password: String;
   name: String;
   sentences?: SentenceCreateManyWithoutUserInput;
 }
@@ -420,12 +504,9 @@ export interface SentenceCreateManyWithoutUserInput {
 export interface SentenceCreateWithoutUserInput {
   english: String;
   korean: String;
-  tags?: SentenceCreatetagsInput;
+  source?: String;
+  label?: String;
   likes?: LikeCreateManyWithoutSentenceInput;
-}
-
-export interface SentenceCreatetagsInput {
-  set?: String[] | String;
 }
 
 export interface LikeCreateManyWithoutSentenceInput {
@@ -445,7 +526,8 @@ export interface SentenceCreateOneWithoutLikesInput {
 export interface SentenceCreateWithoutLikesInput {
   english: String;
   korean: String;
-  tags?: SentenceCreatetagsInput;
+  source?: String;
+  label?: String;
   user: UserCreateOneWithoutSentencesInput;
 }
 
@@ -456,6 +538,9 @@ export interface UserCreateOneWithoutSentencesInput {
 
 export interface UserCreateWithoutSentencesInput {
   email: String;
+  username: String;
+  avatar: String;
+  password: String;
   name: String;
   likes?: LikeCreateManyWithoutUserInput;
 }
@@ -483,6 +568,9 @@ export interface UserUpdateOneRequiredWithoutLikesInput {
 
 export interface UserUpdateWithoutLikesDataInput {
   email?: String;
+  username?: String;
+  avatar?: String;
+  password?: String;
   name?: String;
   sentences?: SentenceUpdateManyWithoutUserInput;
 }
@@ -513,12 +601,9 @@ export interface SentenceUpdateWithWhereUniqueWithoutUserInput {
 export interface SentenceUpdateWithoutUserDataInput {
   english?: String;
   korean?: String;
-  tags?: SentenceUpdatetagsInput;
+  source?: String;
+  label?: String;
   likes?: LikeUpdateManyWithoutSentenceInput;
-}
-
-export interface SentenceUpdatetagsInput {
-  set?: String[] | String;
 }
 
 export interface LikeUpdateManyWithoutSentenceInput {
@@ -636,6 +721,34 @@ export interface SentenceScalarWhereInput {
   korean_not_starts_with?: String;
   korean_ends_with?: String;
   korean_not_ends_with?: String;
+  source?: String;
+  source_not?: String;
+  source_in?: String[] | String;
+  source_not_in?: String[] | String;
+  source_lt?: String;
+  source_lte?: String;
+  source_gt?: String;
+  source_gte?: String;
+  source_contains?: String;
+  source_not_contains?: String;
+  source_starts_with?: String;
+  source_not_starts_with?: String;
+  source_ends_with?: String;
+  source_not_ends_with?: String;
+  label?: String;
+  label_not?: String;
+  label_in?: String[] | String;
+  label_not_in?: String[] | String;
+  label_lt?: String;
+  label_lte?: String;
+  label_gt?: String;
+  label_gte?: String;
+  label_contains?: String;
+  label_not_contains?: String;
+  label_starts_with?: String;
+  label_not_starts_with?: String;
+  label_ends_with?: String;
+  label_not_ends_with?: String;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -665,7 +778,8 @@ export interface SentenceUpdateManyWithWhereNestedInput {
 export interface SentenceUpdateManyDataInput {
   english?: String;
   korean?: String;
-  tags?: SentenceUpdatetagsInput;
+  source?: String;
+  label?: String;
 }
 
 export interface UserUpsertWithoutLikesInput {
@@ -683,7 +797,8 @@ export interface SentenceUpdateOneRequiredWithoutLikesInput {
 export interface SentenceUpdateWithoutLikesDataInput {
   english?: String;
   korean?: String;
-  tags?: SentenceUpdatetagsInput;
+  source?: String;
+  label?: String;
   user?: UserUpdateOneRequiredWithoutSentencesInput;
 }
 
@@ -696,6 +811,9 @@ export interface UserUpdateOneRequiredWithoutSentencesInput {
 
 export interface UserUpdateWithoutSentencesDataInput {
   email?: String;
+  username?: String;
+  avatar?: String;
+  password?: String;
   name?: String;
   likes?: LikeUpdateManyWithoutUserInput;
 }
@@ -743,7 +861,8 @@ export interface SentenceUpsertWithoutLikesInput {
 export interface SentenceCreateInput {
   english: String;
   korean: String;
-  tags?: SentenceCreatetagsInput;
+  source?: String;
+  label?: String;
   user: UserCreateOneWithoutSentencesInput;
   likes?: LikeCreateManyWithoutSentenceInput;
 }
@@ -751,7 +870,8 @@ export interface SentenceCreateInput {
 export interface SentenceUpdateInput {
   english?: String;
   korean?: String;
-  tags?: SentenceUpdatetagsInput;
+  source?: String;
+  label?: String;
   user?: UserUpdateOneRequiredWithoutSentencesInput;
   likes?: LikeUpdateManyWithoutSentenceInput;
 }
@@ -759,11 +879,15 @@ export interface SentenceUpdateInput {
 export interface SentenceUpdateManyMutationInput {
   english?: String;
   korean?: String;
-  tags?: SentenceUpdatetagsInput;
+  source?: String;
+  label?: String;
 }
 
 export interface UserCreateInput {
   email: String;
+  username: String;
+  avatar: String;
+  password: String;
   name: String;
   sentences?: SentenceCreateManyWithoutUserInput;
   likes?: LikeCreateManyWithoutUserInput;
@@ -771,6 +895,9 @@ export interface UserCreateInput {
 
 export interface UserUpdateInput {
   email?: String;
+  username?: String;
+  avatar?: String;
+  password?: String;
   name?: String;
   sentences?: SentenceUpdateManyWithoutUserInput;
   likes?: LikeUpdateManyWithoutUserInput;
@@ -778,6 +905,9 @@ export interface UserUpdateInput {
 
 export interface UserUpdateManyMutationInput {
   email?: String;
+  username?: String;
+  avatar?: String;
+  password?: String;
   name?: String;
 }
 
@@ -845,6 +975,9 @@ export interface LikeSubscription
 export interface User {
   id: ID_Output;
   email: String;
+  username: String;
+  avatar: String;
+  password: String;
   name: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -853,6 +986,9 @@ export interface User {
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
+  username: () => Promise<String>;
+  avatar: () => Promise<String>;
+  password: () => Promise<String>;
   name: () => Promise<String>;
   sentences: <T = FragmentableArray<Sentence>>(args?: {
     where?: SentenceWhereInput;
@@ -881,6 +1017,9 @@ export interface UserSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
   sentences: <T = Promise<AsyncIterator<SentenceSubscription>>>(args?: {
     where?: SentenceWhereInput;
@@ -908,7 +1047,8 @@ export interface Sentence {
   id: ID_Output;
   english: String;
   korean: String;
-  tags: String[];
+  source?: String;
+  label?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -917,7 +1057,8 @@ export interface SentencePromise extends Promise<Sentence>, Fragmentable {
   id: () => Promise<ID_Output>;
   english: () => Promise<String>;
   korean: () => Promise<String>;
-  tags: () => Promise<String[]>;
+  source: () => Promise<String>;
+  label: () => Promise<String>;
   user: <T = UserPromise>() => T;
   likes: <T = FragmentableArray<Like>>(args?: {
     where?: LikeWhereInput;
@@ -938,7 +1079,8 @@ export interface SentenceSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   english: () => Promise<AsyncIterator<String>>;
   korean: () => Promise<AsyncIterator<String>>;
-  tags: () => Promise<AsyncIterator<String[]>>;
+  source: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   likes: <T = Promise<AsyncIterator<LikeSubscription>>>(args?: {
     where?: LikeWhereInput;
@@ -1232,7 +1374,8 @@ export interface SentencePreviousValues {
   id: ID_Output;
   english: String;
   korean: String;
-  tags: String[];
+  source?: String;
+  label?: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -1243,7 +1386,8 @@ export interface SentencePreviousValuesPromise
   id: () => Promise<ID_Output>;
   english: () => Promise<String>;
   korean: () => Promise<String>;
-  tags: () => Promise<String[]>;
+  source: () => Promise<String>;
+  label: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1254,7 +1398,8 @@ export interface SentencePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   english: () => Promise<AsyncIterator<String>>;
   korean: () => Promise<AsyncIterator<String>>;
-  tags: () => Promise<AsyncIterator<String[]>>;
+  source: () => Promise<AsyncIterator<String>>;
+  label: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1287,6 +1432,9 @@ export interface UserSubscriptionPayloadSubscription
 export interface UserPreviousValues {
   id: ID_Output;
   email: String;
+  username: String;
+  avatar: String;
+  password: String;
   name: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -1297,6 +1445,9 @@ export interface UserPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   email: () => Promise<String>;
+  username: () => Promise<String>;
+  avatar: () => Promise<String>;
+  password: () => Promise<String>;
   name: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -1307,6 +1458,9 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   email: () => Promise<AsyncIterator<String>>;
+  username: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;

@@ -1,0 +1,12 @@
+type Mutation {
+    updateUser(data: UpdateUserInput!): User!
+}
+
+input UpdateUserInput {
+    name: String
+    email: String
+    username: String
+    password: String!
+    newPassword: String
+    newPassword2: String
+}
