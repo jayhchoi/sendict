@@ -6,37 +6,29 @@ type User {
   password: String!
   name: String!
   #
-  sentences: [Sentence!]! @relation(name: "SentencesToUser" onDelete: CASCADE)
-  likes: [Like!]! @relation(name: "LikestoUser" onDelete: CASCADE)
+  mySentences: [Sentence!]! @relation(name: "SentencesToUser")
+  dictionary: Dictionary! @relation(name: "DictionaryToUser", onDelete: CASCADE)
   #
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type Dictionary {
+  id: ID! @unique
+  user: User! @relation(name: "DictionaryToUser")
+  sentences: [Sentence!]!
 }
 
 type Sentence {
   id: ID! @unique
   english: String!
   korean: String!
+  #
   source: String
   label: String
   #
-  user: User! @relation(name: "SentencesToUser")
-  likes: [Like!]! @relation(name: "LikestoSentence" onDelete: CASCADE)
-  #
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-# type Tag {
-#   id: ID! @unique
-#   name: String! @unique
-# }
-
-type Like {
-  id: ID! @unique
-  #
-  user: User! @relation(name: "LikesToUser")
-  sentence: Sentence! @relation(name: "LikestoSentence")
+  author: User! @relation(name: "SentencesToUser")
+  dictionaries: [Dictionary!]!
   #
   createdAt: DateTime!
   updatedAt: DateTime!

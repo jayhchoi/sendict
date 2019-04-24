@@ -4,9 +4,9 @@ import { gql } from 'apollo-boost'
 import { toast } from 'react-toastify'
 import useInput from '../../hooks/useInput'
 
-const ADD_SENTENCE = gql`
-  mutation AddSentence($data: AddSentenceInput!) {
-    addSentence(data: $data) {
+const CREATE_SENTENCE = gql`
+  mutation createSentence($data: CreateSentenceInput!) {
+    createSentence(data: $data) {
       id
     }
   }
@@ -16,11 +16,14 @@ export default function Learn() {
   const englishInput = useInput('')
   const koreanInput = useInput('')
   const [sentences, setSentences] = useState([])
-  const addSentenceMutation = useMutation(ADD_SENTENCE)
+  const createSentenceMutation = useMutation(CREATE_SENTENCE)
 
   const saveSentence = async () => {
     try {
-      await addSentenceMutation({
+      if (!englishInput.value || !koreanInput.value)
+        throw new Error('영어와 우리말 문장을 입력한 뒤 저장해주세요')
+
+      await createSentenceMutation({
         variables: {
           data: {
             english: englishInput.value,
@@ -28,25 +31,29 @@ export default function Learn() {
           }
         }
       })
+      setSentences([
+        ...sentences,
+        {
+          english: englishInput.value,
+          korean: koreanInput.value
+        }
+      ])
+      englishInput.reset()
+      koreanInput.reset()
       toast.success('입력한 문장을 DB에 저장했습니다')
     } catch (error) {
-      toast.error('입력한 문장을 저장할 수 없습니다')
+      toast.error(error.message)
     }
-    setSentences([
-      ...sentences,
-      {
-        english: englishInput.value,
-        korean: koreanInput.value
-      }
-    ])
-    englishInput.reset()
-    koreanInput.reset()
   }
 
   return (
     <div>
       <h1>문장 학습하기</h1>
-      <p>내가 입력한 문장들은 '복습하기' 페이지에서 모두 확인할 수 있습니다</p>
+      <p>
+        영어 컨텐츠를 소비하면서 접하는 새롭거나 유용한 문장들을 빠르게
+        저장하세요. 저장된 문장들은 '복습하기' 페이지에서 모두 확인할 수
+        있습니다
+      </p>
 
       <input
         type="text"

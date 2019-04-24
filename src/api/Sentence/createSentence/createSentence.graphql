@@ -1,8 +1,8 @@
 type Mutation {
-    addSentence(data: AddSentenceInput!): Sentence!
+    createSentence(data: CreateSentenceInput!): Sentence!
 }
 
-input AddSentenceInput {
+input CreateSentenceInput {
   english: String!
   korean: String!
   #

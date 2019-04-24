@@ -15,7 +15,12 @@ export default {
         d: 'mm' // Default img
       })
 
-      const user = await prisma.createUser({ ...data, password, avatar })
+      const user = await prisma.createUser({
+        ...data,
+        password,
+        avatar,
+        dictionary: { create: {} }
+      })
 
       const userPayload = {
         id: user.id,

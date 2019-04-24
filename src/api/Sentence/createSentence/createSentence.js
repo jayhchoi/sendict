@@ -2,14 +2,21 @@ import { prisma } from '../../../prisma/generated/prisma-client'
 
 export default {
   Mutation: {
-    addSentence: async (_, { data }, { request, getUserId }) => {
-      // const userId = getUserId(request)
+    createSentence: async (_, { data }, { request, getUserId }) => {
+      const userId = getUserId(request)
+
+      const { id: dictId } = await prisma.user({ id: userId }).dictionary()
 
       return prisma.createSentence({
         ...data,
-        user: {
+        author: {
           connect: {
-            email: 'jaychoi1619@gmail.com'
+            id: userId
+          }
+        },
+        dictionaries: {
+          connect: {
+            id: dictId
           }
         }
       })

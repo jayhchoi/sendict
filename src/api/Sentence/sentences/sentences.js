@@ -4,8 +4,10 @@ import { prisma } from '../../../prisma/generated/prisma-client'
 export default {
   Query: {
     sentences: (_, { query }) => {
-      return prisma.sentences({
-        where: {
+      const opArgs = {}
+
+      if (query) {
+        opArgs.where = {
           OR: [
             {
               english_contains: query
@@ -14,13 +16,13 @@ export default {
               korean_contains: query
             },
             {
-              tags_some: {
-                name_contains: query
-              }
+              source_contains: query
             }
           ]
         }
-      })
+      }
+
+      return prisma.sentences()
     }
   }
 }

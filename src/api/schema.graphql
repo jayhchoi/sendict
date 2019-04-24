@@ -3,13 +3,20 @@ type User {
   email: String!
   username: String!
   avatar: String!
+  # password: String!
   name: String!
   #
-  sentences: [Sentence!]!
-  likes: [Like!]!
+  mySentences: [Sentence!]!
+  dictionary: Dictionary!
   #
   createdAt: String!
   updatedAt: String!
+}
+
+type Dictionary {
+  id: ID!
+  user: User!
+  sentences: [Sentence!]!
 }
 
 type Sentence {
@@ -20,23 +27,8 @@ type Sentence {
   source: String
   label: String
   #
-  user: User!
-  likes: [Like!]!
-  #
-  createdAt: String!
-  updatedAt: String!
-}
-
-# type Tag {
-#     id: ID!
-#     name: String!
-# }
-
-type Like {
-  id: ID!
-  #
-  user: User!
-  sentence: Sentence!
+  author: User!
+  dictionaries: [Dictionary!]!
   #
   createdAt: String!
   updatedAt: String!
@@ -44,6 +36,5 @@ type Like {
 
 type AuthPayload {
   token: String!
-  #
   user: User!
 }

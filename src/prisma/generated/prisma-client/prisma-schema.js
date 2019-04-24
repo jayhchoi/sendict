@@ -3,7 +3,7 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateLike {
+/* GraphQL */ `type AggregateDictionary {
   count: Int!
 }
 
@@ -21,64 +21,56 @@ type BatchPayload {
 
 scalar DateTime
 
-type Like {
+type Dictionary {
   id: ID!
   user: User!
-  sentence: Sentence!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  sentences(where: SentenceWhereInput, orderBy: SentenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sentence!]
 }
 
-type LikeConnection {
+type DictionaryConnection {
   pageInfo: PageInfo!
-  edges: [LikeEdge]!
-  aggregate: AggregateLike!
+  edges: [DictionaryEdge]!
+  aggregate: AggregateDictionary!
 }
 
-input LikeCreateInput {
-  user: UserCreateOneWithoutLikesInput!
-  sentence: SentenceCreateOneWithoutLikesInput!
+input DictionaryCreateInput {
+  user: UserCreateOneWithoutDictionaryInput!
+  sentences: SentenceCreateManyWithoutDictionariesInput
 }
 
-input LikeCreateManyWithoutSentenceInput {
-  create: [LikeCreateWithoutSentenceInput!]
-  connect: [LikeWhereUniqueInput!]
+input DictionaryCreateManyWithoutSentencesInput {
+  create: [DictionaryCreateWithoutSentencesInput!]
+  connect: [DictionaryWhereUniqueInput!]
 }
 
-input LikeCreateManyWithoutUserInput {
-  create: [LikeCreateWithoutUserInput!]
-  connect: [LikeWhereUniqueInput!]
+input DictionaryCreateOneWithoutUserInput {
+  create: DictionaryCreateWithoutUserInput
+  connect: DictionaryWhereUniqueInput
 }
 
-input LikeCreateWithoutSentenceInput {
-  user: UserCreateOneWithoutLikesInput!
+input DictionaryCreateWithoutSentencesInput {
+  user: UserCreateOneWithoutDictionaryInput!
 }
 
-input LikeCreateWithoutUserInput {
-  sentence: SentenceCreateOneWithoutLikesInput!
+input DictionaryCreateWithoutUserInput {
+  sentences: SentenceCreateManyWithoutDictionariesInput
 }
 
-type LikeEdge {
-  node: Like!
+type DictionaryEdge {
+  node: Dictionary!
   cursor: String!
 }
 
-enum LikeOrderByInput {
+enum DictionaryOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
-type LikePreviousValues {
+type DictionaryPreviousValues {
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
 }
 
-input LikeScalarWhereInput {
+input DictionaryScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -93,103 +85,77 @@ input LikeScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  AND: [LikeScalarWhereInput!]
-  OR: [LikeScalarWhereInput!]
-  NOT: [LikeScalarWhereInput!]
+  AND: [DictionaryScalarWhereInput!]
+  OR: [DictionaryScalarWhereInput!]
+  NOT: [DictionaryScalarWhereInput!]
 }
 
-type LikeSubscriptionPayload {
+type DictionarySubscriptionPayload {
   mutation: MutationType!
-  node: Like
+  node: Dictionary
   updatedFields: [String!]
-  previousValues: LikePreviousValues
+  previousValues: DictionaryPreviousValues
 }
 
-input LikeSubscriptionWhereInput {
+input DictionarySubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: LikeWhereInput
-  AND: [LikeSubscriptionWhereInput!]
-  OR: [LikeSubscriptionWhereInput!]
-  NOT: [LikeSubscriptionWhereInput!]
+  node: DictionaryWhereInput
+  AND: [DictionarySubscriptionWhereInput!]
+  OR: [DictionarySubscriptionWhereInput!]
+  NOT: [DictionarySubscriptionWhereInput!]
 }
 
-input LikeUpdateInput {
-  user: UserUpdateOneRequiredWithoutLikesInput
-  sentence: SentenceUpdateOneRequiredWithoutLikesInput
+input DictionaryUpdateInput {
+  user: UserUpdateOneRequiredWithoutDictionaryInput
+  sentences: SentenceUpdateManyWithoutDictionariesInput
 }
 
-input LikeUpdateManyWithoutSentenceInput {
-  create: [LikeCreateWithoutSentenceInput!]
-  delete: [LikeWhereUniqueInput!]
-  connect: [LikeWhereUniqueInput!]
-  set: [LikeWhereUniqueInput!]
-  disconnect: [LikeWhereUniqueInput!]
-  update: [LikeUpdateWithWhereUniqueWithoutSentenceInput!]
-  upsert: [LikeUpsertWithWhereUniqueWithoutSentenceInput!]
-  deleteMany: [LikeScalarWhereInput!]
+input DictionaryUpdateManyWithoutSentencesInput {
+  create: [DictionaryCreateWithoutSentencesInput!]
+  delete: [DictionaryWhereUniqueInput!]
+  connect: [DictionaryWhereUniqueInput!]
+  set: [DictionaryWhereUniqueInput!]
+  disconnect: [DictionaryWhereUniqueInput!]
+  update: [DictionaryUpdateWithWhereUniqueWithoutSentencesInput!]
+  upsert: [DictionaryUpsertWithWhereUniqueWithoutSentencesInput!]
+  deleteMany: [DictionaryScalarWhereInput!]
 }
 
-input LikeUpdateManyWithoutUserInput {
-  create: [LikeCreateWithoutUserInput!]
-  delete: [LikeWhereUniqueInput!]
-  connect: [LikeWhereUniqueInput!]
-  set: [LikeWhereUniqueInput!]
-  disconnect: [LikeWhereUniqueInput!]
-  update: [LikeUpdateWithWhereUniqueWithoutUserInput!]
-  upsert: [LikeUpsertWithWhereUniqueWithoutUserInput!]
-  deleteMany: [LikeScalarWhereInput!]
+input DictionaryUpdateOneRequiredWithoutUserInput {
+  create: DictionaryCreateWithoutUserInput
+  update: DictionaryUpdateWithoutUserDataInput
+  upsert: DictionaryUpsertWithoutUserInput
+  connect: DictionaryWhereUniqueInput
 }
 
-input LikeUpdateWithoutSentenceDataInput {
-  user: UserUpdateOneRequiredWithoutLikesInput
+input DictionaryUpdateWithoutSentencesDataInput {
+  user: UserUpdateOneRequiredWithoutDictionaryInput
 }
 
-input LikeUpdateWithoutUserDataInput {
-  sentence: SentenceUpdateOneRequiredWithoutLikesInput
+input DictionaryUpdateWithoutUserDataInput {
+  sentences: SentenceUpdateManyWithoutDictionariesInput
 }
 
-input LikeUpdateWithWhereUniqueWithoutSentenceInput {
-  where: LikeWhereUniqueInput!
-  data: LikeUpdateWithoutSentenceDataInput!
+input DictionaryUpdateWithWhereUniqueWithoutSentencesInput {
+  where: DictionaryWhereUniqueInput!
+  data: DictionaryUpdateWithoutSentencesDataInput!
 }
 
-input LikeUpdateWithWhereUniqueWithoutUserInput {
-  where: LikeWhereUniqueInput!
-  data: LikeUpdateWithoutUserDataInput!
+input DictionaryUpsertWithoutUserInput {
+  update: DictionaryUpdateWithoutUserDataInput!
+  create: DictionaryCreateWithoutUserInput!
 }
 
-input LikeUpsertWithWhereUniqueWithoutSentenceInput {
-  where: LikeWhereUniqueInput!
-  update: LikeUpdateWithoutSentenceDataInput!
-  create: LikeCreateWithoutSentenceInput!
+input DictionaryUpsertWithWhereUniqueWithoutSentencesInput {
+  where: DictionaryWhereUniqueInput!
+  update: DictionaryUpdateWithoutSentencesDataInput!
+  create: DictionaryCreateWithoutSentencesInput!
 }
 
-input LikeUpsertWithWhereUniqueWithoutUserInput {
-  where: LikeWhereUniqueInput!
-  update: LikeUpdateWithoutUserDataInput!
-  create: LikeCreateWithoutUserInput!
-}
-
-input LikeWhereInput {
+input DictionaryWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -205,40 +171,26 @@ input LikeWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   user: UserWhereInput
-  sentence: SentenceWhereInput
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  AND: [LikeWhereInput!]
-  OR: [LikeWhereInput!]
-  NOT: [LikeWhereInput!]
+  sentences_every: SentenceWhereInput
+  sentences_some: SentenceWhereInput
+  sentences_none: SentenceWhereInput
+  AND: [DictionaryWhereInput!]
+  OR: [DictionaryWhereInput!]
+  NOT: [DictionaryWhereInput!]
 }
 
-input LikeWhereUniqueInput {
+input DictionaryWhereUniqueInput {
   id: ID
 }
 
 scalar Long
 
 type Mutation {
-  createLike(data: LikeCreateInput!): Like!
-  updateLike(data: LikeUpdateInput!, where: LikeWhereUniqueInput!): Like
-  upsertLike(where: LikeWhereUniqueInput!, create: LikeCreateInput!, update: LikeUpdateInput!): Like!
-  deleteLike(where: LikeWhereUniqueInput!): Like
-  deleteManyLikes(where: LikeWhereInput): BatchPayload!
+  createDictionary(data: DictionaryCreateInput!): Dictionary!
+  updateDictionary(data: DictionaryUpdateInput!, where: DictionaryWhereUniqueInput!): Dictionary
+  upsertDictionary(where: DictionaryWhereUniqueInput!, create: DictionaryCreateInput!, update: DictionaryUpdateInput!): Dictionary!
+  deleteDictionary(where: DictionaryWhereUniqueInput!): Dictionary
+  deleteManyDictionaries(where: DictionaryWhereInput): BatchPayload!
   createSentence(data: SentenceCreateInput!): Sentence!
   updateSentence(data: SentenceUpdateInput!, where: SentenceWhereUniqueInput!): Sentence
   updateManySentences(data: SentenceUpdateManyMutationInput!, where: SentenceWhereInput): BatchPayload!
@@ -271,9 +223,9 @@ type PageInfo {
 }
 
 type Query {
-  like(where: LikeWhereUniqueInput!): Like
-  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like]!
-  likesConnection(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection!
+  dictionary(where: DictionaryWhereUniqueInput!): Dictionary
+  dictionaries(where: DictionaryWhereInput, orderBy: DictionaryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dictionary]!
+  dictionariesConnection(where: DictionaryWhereInput, orderBy: DictionaryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DictionaryConnection!
   sentence(where: SentenceWhereUniqueInput!): Sentence
   sentences(where: SentenceWhereInput, orderBy: SentenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sentence]!
   sentencesConnection(where: SentenceWhereInput, orderBy: SentenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SentenceConnection!
@@ -289,8 +241,8 @@ type Sentence {
   korean: String!
   source: String
   label: String
-  user: User!
-  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
+  author: User!
+  dictionaries(where: DictionaryWhereInput, orderBy: DictionaryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dictionary!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -306,34 +258,34 @@ input SentenceCreateInput {
   korean: String!
   source: String
   label: String
-  user: UserCreateOneWithoutSentencesInput!
-  likes: LikeCreateManyWithoutSentenceInput
+  author: UserCreateOneWithoutMySentencesInput!
+  dictionaries: DictionaryCreateManyWithoutSentencesInput
 }
 
-input SentenceCreateManyWithoutUserInput {
-  create: [SentenceCreateWithoutUserInput!]
+input SentenceCreateManyWithoutAuthorInput {
+  create: [SentenceCreateWithoutAuthorInput!]
   connect: [SentenceWhereUniqueInput!]
 }
 
-input SentenceCreateOneWithoutLikesInput {
-  create: SentenceCreateWithoutLikesInput
-  connect: SentenceWhereUniqueInput
+input SentenceCreateManyWithoutDictionariesInput {
+  create: [SentenceCreateWithoutDictionariesInput!]
+  connect: [SentenceWhereUniqueInput!]
 }
 
-input SentenceCreateWithoutLikesInput {
+input SentenceCreateWithoutAuthorInput {
   english: String!
   korean: String!
   source: String
   label: String
-  user: UserCreateOneWithoutSentencesInput!
+  dictionaries: DictionaryCreateManyWithoutSentencesInput
 }
 
-input SentenceCreateWithoutUserInput {
+input SentenceCreateWithoutDictionariesInput {
   english: String!
   korean: String!
   source: String
   label: String
-  likes: LikeCreateManyWithoutSentenceInput
+  author: UserCreateOneWithoutMySentencesInput!
 }
 
 type SentenceEdge {
@@ -483,8 +435,8 @@ input SentenceUpdateInput {
   korean: String
   source: String
   label: String
-  user: UserUpdateOneRequiredWithoutSentencesInput
-  likes: LikeUpdateManyWithoutSentenceInput
+  author: UserUpdateOneRequiredWithoutMySentencesInput
+  dictionaries: DictionaryUpdateManyWithoutSentencesInput
 }
 
 input SentenceUpdateManyDataInput {
@@ -501,14 +453,26 @@ input SentenceUpdateManyMutationInput {
   label: String
 }
 
-input SentenceUpdateManyWithoutUserInput {
-  create: [SentenceCreateWithoutUserInput!]
+input SentenceUpdateManyWithoutAuthorInput {
+  create: [SentenceCreateWithoutAuthorInput!]
   delete: [SentenceWhereUniqueInput!]
   connect: [SentenceWhereUniqueInput!]
   set: [SentenceWhereUniqueInput!]
   disconnect: [SentenceWhereUniqueInput!]
-  update: [SentenceUpdateWithWhereUniqueWithoutUserInput!]
-  upsert: [SentenceUpsertWithWhereUniqueWithoutUserInput!]
+  update: [SentenceUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [SentenceUpsertWithWhereUniqueWithoutAuthorInput!]
+  deleteMany: [SentenceScalarWhereInput!]
+  updateMany: [SentenceUpdateManyWithWhereNestedInput!]
+}
+
+input SentenceUpdateManyWithoutDictionariesInput {
+  create: [SentenceCreateWithoutDictionariesInput!]
+  delete: [SentenceWhereUniqueInput!]
+  connect: [SentenceWhereUniqueInput!]
+  set: [SentenceWhereUniqueInput!]
+  disconnect: [SentenceWhereUniqueInput!]
+  update: [SentenceUpdateWithWhereUniqueWithoutDictionariesInput!]
+  upsert: [SentenceUpsertWithWhereUniqueWithoutDictionariesInput!]
   deleteMany: [SentenceScalarWhereInput!]
   updateMany: [SentenceUpdateManyWithWhereNestedInput!]
 }
@@ -518,43 +482,42 @@ input SentenceUpdateManyWithWhereNestedInput {
   data: SentenceUpdateManyDataInput!
 }
 
-input SentenceUpdateOneRequiredWithoutLikesInput {
-  create: SentenceCreateWithoutLikesInput
-  update: SentenceUpdateWithoutLikesDataInput
-  upsert: SentenceUpsertWithoutLikesInput
-  connect: SentenceWhereUniqueInput
-}
-
-input SentenceUpdateWithoutLikesDataInput {
+input SentenceUpdateWithoutAuthorDataInput {
   english: String
   korean: String
   source: String
   label: String
-  user: UserUpdateOneRequiredWithoutSentencesInput
+  dictionaries: DictionaryUpdateManyWithoutSentencesInput
 }
 
-input SentenceUpdateWithoutUserDataInput {
+input SentenceUpdateWithoutDictionariesDataInput {
   english: String
   korean: String
   source: String
   label: String
-  likes: LikeUpdateManyWithoutSentenceInput
+  author: UserUpdateOneRequiredWithoutMySentencesInput
 }
 
-input SentenceUpdateWithWhereUniqueWithoutUserInput {
+input SentenceUpdateWithWhereUniqueWithoutAuthorInput {
   where: SentenceWhereUniqueInput!
-  data: SentenceUpdateWithoutUserDataInput!
+  data: SentenceUpdateWithoutAuthorDataInput!
 }
 
-input SentenceUpsertWithoutLikesInput {
-  update: SentenceUpdateWithoutLikesDataInput!
-  create: SentenceCreateWithoutLikesInput!
-}
-
-input SentenceUpsertWithWhereUniqueWithoutUserInput {
+input SentenceUpdateWithWhereUniqueWithoutDictionariesInput {
   where: SentenceWhereUniqueInput!
-  update: SentenceUpdateWithoutUserDataInput!
-  create: SentenceCreateWithoutUserInput!
+  data: SentenceUpdateWithoutDictionariesDataInput!
+}
+
+input SentenceUpsertWithWhereUniqueWithoutAuthorInput {
+  where: SentenceWhereUniqueInput!
+  update: SentenceUpdateWithoutAuthorDataInput!
+  create: SentenceCreateWithoutAuthorInput!
+}
+
+input SentenceUpsertWithWhereUniqueWithoutDictionariesInput {
+  where: SentenceWhereUniqueInput!
+  update: SentenceUpdateWithoutDictionariesDataInput!
+  create: SentenceCreateWithoutDictionariesInput!
 }
 
 input SentenceWhereInput {
@@ -628,10 +591,10 @@ input SentenceWhereInput {
   label_not_starts_with: String
   label_ends_with: String
   label_not_ends_with: String
-  user: UserWhereInput
-  likes_every: LikeWhereInput
-  likes_some: LikeWhereInput
-  likes_none: LikeWhereInput
+  author: UserWhereInput
+  dictionaries_every: DictionaryWhereInput
+  dictionaries_some: DictionaryWhereInput
+  dictionaries_none: DictionaryWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -658,7 +621,7 @@ input SentenceWhereUniqueInput {
 }
 
 type Subscription {
-  like(where: LikeSubscriptionWhereInput): LikeSubscriptionPayload
+  dictionary(where: DictionarySubscriptionWhereInput): DictionarySubscriptionPayload
   sentence(where: SentenceSubscriptionWhereInput): SentenceSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -670,8 +633,8 @@ type User {
   avatar: String!
   password: String!
   name: String!
-  sentences(where: SentenceWhereInput, orderBy: SentenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sentence!]
-  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
+  mySentences(where: SentenceWhereInput, orderBy: SentenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Sentence!]
+  dictionary: Dictionary!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -688,36 +651,36 @@ input UserCreateInput {
   avatar: String!
   password: String!
   name: String!
-  sentences: SentenceCreateManyWithoutUserInput
-  likes: LikeCreateManyWithoutUserInput
+  mySentences: SentenceCreateManyWithoutAuthorInput
+  dictionary: DictionaryCreateOneWithoutUserInput!
 }
 
-input UserCreateOneWithoutLikesInput {
-  create: UserCreateWithoutLikesInput
+input UserCreateOneWithoutDictionaryInput {
+  create: UserCreateWithoutDictionaryInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutSentencesInput {
-  create: UserCreateWithoutSentencesInput
+input UserCreateOneWithoutMySentencesInput {
+  create: UserCreateWithoutMySentencesInput
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutLikesInput {
+input UserCreateWithoutDictionaryInput {
   email: String!
   username: String!
   avatar: String!
   password: String!
   name: String!
-  sentences: SentenceCreateManyWithoutUserInput
+  mySentences: SentenceCreateManyWithoutAuthorInput
 }
 
-input UserCreateWithoutSentencesInput {
+input UserCreateWithoutMySentencesInput {
   email: String!
   username: String!
   avatar: String!
   password: String!
   name: String!
-  likes: LikeCreateManyWithoutUserInput
+  dictionary: DictionaryCreateOneWithoutUserInput!
 }
 
 type UserEdge {
@@ -779,8 +742,8 @@ input UserUpdateInput {
   avatar: String
   password: String
   name: String
-  sentences: SentenceUpdateManyWithoutUserInput
-  likes: LikeUpdateManyWithoutUserInput
+  mySentences: SentenceUpdateManyWithoutAuthorInput
+  dictionary: DictionaryUpdateOneRequiredWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -791,46 +754,46 @@ input UserUpdateManyMutationInput {
   name: String
 }
 
-input UserUpdateOneRequiredWithoutLikesInput {
-  create: UserCreateWithoutLikesInput
-  update: UserUpdateWithoutLikesDataInput
-  upsert: UserUpsertWithoutLikesInput
+input UserUpdateOneRequiredWithoutDictionaryInput {
+  create: UserCreateWithoutDictionaryInput
+  update: UserUpdateWithoutDictionaryDataInput
+  upsert: UserUpsertWithoutDictionaryInput
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateOneRequiredWithoutSentencesInput {
-  create: UserCreateWithoutSentencesInput
-  update: UserUpdateWithoutSentencesDataInput
-  upsert: UserUpsertWithoutSentencesInput
+input UserUpdateOneRequiredWithoutMySentencesInput {
+  create: UserCreateWithoutMySentencesInput
+  update: UserUpdateWithoutMySentencesDataInput
+  upsert: UserUpsertWithoutMySentencesInput
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateWithoutLikesDataInput {
+input UserUpdateWithoutDictionaryDataInput {
   email: String
   username: String
   avatar: String
   password: String
   name: String
-  sentences: SentenceUpdateManyWithoutUserInput
+  mySentences: SentenceUpdateManyWithoutAuthorInput
 }
 
-input UserUpdateWithoutSentencesDataInput {
+input UserUpdateWithoutMySentencesDataInput {
   email: String
   username: String
   avatar: String
   password: String
   name: String
-  likes: LikeUpdateManyWithoutUserInput
+  dictionary: DictionaryUpdateOneRequiredWithoutUserInput
 }
 
-input UserUpsertWithoutLikesInput {
-  update: UserUpdateWithoutLikesDataInput!
-  create: UserCreateWithoutLikesInput!
+input UserUpsertWithoutDictionaryInput {
+  update: UserUpdateWithoutDictionaryDataInput!
+  create: UserCreateWithoutDictionaryInput!
 }
 
-input UserUpsertWithoutSentencesInput {
-  update: UserUpdateWithoutSentencesDataInput!
-  create: UserCreateWithoutSentencesInput!
+input UserUpsertWithoutMySentencesInput {
+  update: UserUpdateWithoutMySentencesDataInput!
+  create: UserCreateWithoutMySentencesInput!
 }
 
 input UserWhereInput {
@@ -918,12 +881,10 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  sentences_every: SentenceWhereInput
-  sentences_some: SentenceWhereInput
-  sentences_none: SentenceWhereInput
-  likes_every: LikeWhereInput
-  likes_some: LikeWhereInput
-  likes_none: LikeWhereInput
+  mySentences_every: SentenceWhereInput
+  mySentences_some: SentenceWhereInput
+  mySentences_none: SentenceWhereInput
+  dictionary: DictionaryWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

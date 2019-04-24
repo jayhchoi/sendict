@@ -14,7 +14,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
-  like: (where?: LikeWhereInput) => Promise<boolean>;
+  dictionary: (where?: DictionaryWhereInput) => Promise<boolean>;
   sentence: (where?: SentenceWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -38,25 +38,25 @@ export interface Prisma {
    * Queries
    */
 
-  like: (where: LikeWhereUniqueInput) => LikePromise;
-  likes: (args?: {
-    where?: LikeWhereInput;
-    orderBy?: LikeOrderByInput;
+  dictionary: (where: DictionaryWhereUniqueInput) => DictionaryPromise;
+  dictionaries: (args?: {
+    where?: DictionaryWhereInput;
+    orderBy?: DictionaryOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Like>;
-  likesConnection: (args?: {
-    where?: LikeWhereInput;
-    orderBy?: LikeOrderByInput;
+  }) => FragmentableArray<Dictionary>;
+  dictionariesConnection: (args?: {
+    where?: DictionaryWhereInput;
+    orderBy?: DictionaryOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => LikeConnectionPromise;
+  }) => DictionaryConnectionPromise;
   sentence: (where: SentenceWhereUniqueInput) => SentencePromise;
   sentences: (args?: {
     where?: SentenceWhereInput;
@@ -101,18 +101,18 @@ export interface Prisma {
    * Mutations
    */
 
-  createLike: (data: LikeCreateInput) => LikePromise;
-  updateLike: (args: {
-    data: LikeUpdateInput;
-    where: LikeWhereUniqueInput;
-  }) => LikePromise;
-  upsertLike: (args: {
-    where: LikeWhereUniqueInput;
-    create: LikeCreateInput;
-    update: LikeUpdateInput;
-  }) => LikePromise;
-  deleteLike: (where: LikeWhereUniqueInput) => LikePromise;
-  deleteManyLikes: (where?: LikeWhereInput) => BatchPayloadPromise;
+  createDictionary: (data: DictionaryCreateInput) => DictionaryPromise;
+  updateDictionary: (args: {
+    data: DictionaryUpdateInput;
+    where: DictionaryWhereUniqueInput;
+  }) => DictionaryPromise;
+  upsertDictionary: (args: {
+    where: DictionaryWhereUniqueInput;
+    create: DictionaryCreateInput;
+    update: DictionaryUpdateInput;
+  }) => DictionaryPromise;
+  deleteDictionary: (where: DictionaryWhereUniqueInput) => DictionaryPromise;
+  deleteManyDictionaries: (where?: DictionaryWhereInput) => BatchPayloadPromise;
   createSentence: (data: SentenceCreateInput) => SentencePromise;
   updateSentence: (args: {
     data: SentenceUpdateInput;
@@ -154,9 +154,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  like: (
-    where?: LikeSubscriptionWhereInput
-  ) => LikeSubscriptionPayloadSubscription;
+  dictionary: (
+    where?: DictionarySubscriptionWhereInput
+  ) => DictionarySubscriptionPayloadSubscription;
   sentence: (
     where?: SentenceSubscriptionWhereInput
   ) => SentenceSubscriptionPayloadSubscription;
@@ -189,13 +189,7 @@ export type SentenceOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
-export type LikeOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
+export type DictionaryOrderByInput = "id_ASC" | "id_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -217,7 +211,7 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type LikeWhereUniqueInput = AtLeastOne<{
+export type DictionaryWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
@@ -292,10 +286,10 @@ export interface SentenceWhereInput {
   label_not_starts_with?: String;
   label_ends_with?: String;
   label_not_ends_with?: String;
-  user?: UserWhereInput;
-  likes_every?: LikeWhereInput;
-  likes_some?: LikeWhereInput;
-  likes_none?: LikeWhereInput;
+  author?: UserWhereInput;
+  dictionaries_every?: DictionaryWhereInput;
+  dictionaries_some?: DictionaryWhereInput;
+  dictionaries_none?: DictionaryWhereInput;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -402,12 +396,10 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  sentences_every?: SentenceWhereInput;
-  sentences_some?: SentenceWhereInput;
-  sentences_none?: SentenceWhereInput;
-  likes_every?: LikeWhereInput;
-  likes_some?: LikeWhereInput;
-  likes_none?: LikeWhereInput;
+  mySentences_every?: SentenceWhereInput;
+  mySentences_some?: SentenceWhereInput;
+  mySentences_none?: SentenceWhereInput;
+  dictionary?: DictionaryWhereInput;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -429,7 +421,7 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface LikeWhereInput {
+export interface DictionaryWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -445,26 +437,12 @@ export interface LikeWhereInput {
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
   user?: UserWhereInput;
-  sentence?: SentenceWhereInput;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: LikeWhereInput[] | LikeWhereInput;
-  OR?: LikeWhereInput[] | LikeWhereInput;
-  NOT?: LikeWhereInput[] | LikeWhereInput;
+  sentences_every?: SentenceWhereInput;
+  sentences_some?: SentenceWhereInput;
+  sentences_none?: SentenceWhereInput;
+  AND?: DictionaryWhereInput[] | DictionaryWhereInput;
+  OR?: DictionaryWhereInput[] | DictionaryWhereInput;
+  NOT?: DictionaryWhereInput[] | DictionaryWhereInput;
 }
 
 export type SentenceWhereUniqueInput = AtLeastOne<{
@@ -477,166 +455,176 @@ export type UserWhereUniqueInput = AtLeastOne<{
   username?: String;
 }>;
 
-export interface LikeCreateInput {
-  user: UserCreateOneWithoutLikesInput;
-  sentence: SentenceCreateOneWithoutLikesInput;
+export interface DictionaryCreateInput {
+  user: UserCreateOneWithoutDictionaryInput;
+  sentences?: SentenceCreateManyWithoutDictionariesInput;
 }
 
-export interface UserCreateOneWithoutLikesInput {
-  create?: UserCreateWithoutLikesInput;
+export interface UserCreateOneWithoutDictionaryInput {
+  create?: UserCreateWithoutDictionaryInput;
   connect?: UserWhereUniqueInput;
 }
 
-export interface UserCreateWithoutLikesInput {
+export interface UserCreateWithoutDictionaryInput {
   email: String;
   username: String;
   avatar: String;
   password: String;
   name: String;
-  sentences?: SentenceCreateManyWithoutUserInput;
+  mySentences?: SentenceCreateManyWithoutAuthorInput;
 }
 
-export interface SentenceCreateManyWithoutUserInput {
-  create?: SentenceCreateWithoutUserInput[] | SentenceCreateWithoutUserInput;
+export interface SentenceCreateManyWithoutAuthorInput {
+  create?:
+    | SentenceCreateWithoutAuthorInput[]
+    | SentenceCreateWithoutAuthorInput;
   connect?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
 }
 
-export interface SentenceCreateWithoutUserInput {
+export interface SentenceCreateWithoutAuthorInput {
   english: String;
   korean: String;
   source?: String;
   label?: String;
-  likes?: LikeCreateManyWithoutSentenceInput;
+  dictionaries?: DictionaryCreateManyWithoutSentencesInput;
 }
 
-export interface LikeCreateManyWithoutSentenceInput {
-  create?: LikeCreateWithoutSentenceInput[] | LikeCreateWithoutSentenceInput;
-  connect?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
+export interface DictionaryCreateManyWithoutSentencesInput {
+  create?:
+    | DictionaryCreateWithoutSentencesInput[]
+    | DictionaryCreateWithoutSentencesInput;
+  connect?: DictionaryWhereUniqueInput[] | DictionaryWhereUniqueInput;
 }
 
-export interface LikeCreateWithoutSentenceInput {
-  user: UserCreateOneWithoutLikesInput;
+export interface DictionaryCreateWithoutSentencesInput {
+  user: UserCreateOneWithoutDictionaryInput;
 }
 
-export interface SentenceCreateOneWithoutLikesInput {
-  create?: SentenceCreateWithoutLikesInput;
-  connect?: SentenceWhereUniqueInput;
+export interface SentenceCreateManyWithoutDictionariesInput {
+  create?:
+    | SentenceCreateWithoutDictionariesInput[]
+    | SentenceCreateWithoutDictionariesInput;
+  connect?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
 }
 
-export interface SentenceCreateWithoutLikesInput {
+export interface SentenceCreateWithoutDictionariesInput {
   english: String;
   korean: String;
   source?: String;
   label?: String;
-  user: UserCreateOneWithoutSentencesInput;
+  author: UserCreateOneWithoutMySentencesInput;
 }
 
-export interface UserCreateOneWithoutSentencesInput {
-  create?: UserCreateWithoutSentencesInput;
+export interface UserCreateOneWithoutMySentencesInput {
+  create?: UserCreateWithoutMySentencesInput;
   connect?: UserWhereUniqueInput;
 }
 
-export interface UserCreateWithoutSentencesInput {
+export interface UserCreateWithoutMySentencesInput {
   email: String;
   username: String;
   avatar: String;
   password: String;
   name: String;
-  likes?: LikeCreateManyWithoutUserInput;
+  dictionary: DictionaryCreateOneWithoutUserInput;
 }
 
-export interface LikeCreateManyWithoutUserInput {
-  create?: LikeCreateWithoutUserInput[] | LikeCreateWithoutUserInput;
-  connect?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
+export interface DictionaryCreateOneWithoutUserInput {
+  create?: DictionaryCreateWithoutUserInput;
+  connect?: DictionaryWhereUniqueInput;
 }
 
-export interface LikeCreateWithoutUserInput {
-  sentence: SentenceCreateOneWithoutLikesInput;
+export interface DictionaryCreateWithoutUserInput {
+  sentences?: SentenceCreateManyWithoutDictionariesInput;
 }
 
-export interface LikeUpdateInput {
-  user?: UserUpdateOneRequiredWithoutLikesInput;
-  sentence?: SentenceUpdateOneRequiredWithoutLikesInput;
+export interface DictionaryUpdateInput {
+  user?: UserUpdateOneRequiredWithoutDictionaryInput;
+  sentences?: SentenceUpdateManyWithoutDictionariesInput;
 }
 
-export interface UserUpdateOneRequiredWithoutLikesInput {
-  create?: UserCreateWithoutLikesInput;
-  update?: UserUpdateWithoutLikesDataInput;
-  upsert?: UserUpsertWithoutLikesInput;
+export interface UserUpdateOneRequiredWithoutDictionaryInput {
+  create?: UserCreateWithoutDictionaryInput;
+  update?: UserUpdateWithoutDictionaryDataInput;
+  upsert?: UserUpsertWithoutDictionaryInput;
   connect?: UserWhereUniqueInput;
 }
 
-export interface UserUpdateWithoutLikesDataInput {
+export interface UserUpdateWithoutDictionaryDataInput {
   email?: String;
   username?: String;
   avatar?: String;
   password?: String;
   name?: String;
-  sentences?: SentenceUpdateManyWithoutUserInput;
+  mySentences?: SentenceUpdateManyWithoutAuthorInput;
 }
 
-export interface SentenceUpdateManyWithoutUserInput {
-  create?: SentenceCreateWithoutUserInput[] | SentenceCreateWithoutUserInput;
+export interface SentenceUpdateManyWithoutAuthorInput {
+  create?:
+    | SentenceCreateWithoutAuthorInput[]
+    | SentenceCreateWithoutAuthorInput;
   delete?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
   connect?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
   set?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
   disconnect?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
   update?:
-    | SentenceUpdateWithWhereUniqueWithoutUserInput[]
-    | SentenceUpdateWithWhereUniqueWithoutUserInput;
+    | SentenceUpdateWithWhereUniqueWithoutAuthorInput[]
+    | SentenceUpdateWithWhereUniqueWithoutAuthorInput;
   upsert?:
-    | SentenceUpsertWithWhereUniqueWithoutUserInput[]
-    | SentenceUpsertWithWhereUniqueWithoutUserInput;
+    | SentenceUpsertWithWhereUniqueWithoutAuthorInput[]
+    | SentenceUpsertWithWhereUniqueWithoutAuthorInput;
   deleteMany?: SentenceScalarWhereInput[] | SentenceScalarWhereInput;
   updateMany?:
     | SentenceUpdateManyWithWhereNestedInput[]
     | SentenceUpdateManyWithWhereNestedInput;
 }
 
-export interface SentenceUpdateWithWhereUniqueWithoutUserInput {
+export interface SentenceUpdateWithWhereUniqueWithoutAuthorInput {
   where: SentenceWhereUniqueInput;
-  data: SentenceUpdateWithoutUserDataInput;
+  data: SentenceUpdateWithoutAuthorDataInput;
 }
 
-export interface SentenceUpdateWithoutUserDataInput {
+export interface SentenceUpdateWithoutAuthorDataInput {
   english?: String;
   korean?: String;
   source?: String;
   label?: String;
-  likes?: LikeUpdateManyWithoutSentenceInput;
+  dictionaries?: DictionaryUpdateManyWithoutSentencesInput;
 }
 
-export interface LikeUpdateManyWithoutSentenceInput {
-  create?: LikeCreateWithoutSentenceInput[] | LikeCreateWithoutSentenceInput;
-  delete?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  connect?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  set?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  disconnect?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
+export interface DictionaryUpdateManyWithoutSentencesInput {
+  create?:
+    | DictionaryCreateWithoutSentencesInput[]
+    | DictionaryCreateWithoutSentencesInput;
+  delete?: DictionaryWhereUniqueInput[] | DictionaryWhereUniqueInput;
+  connect?: DictionaryWhereUniqueInput[] | DictionaryWhereUniqueInput;
+  set?: DictionaryWhereUniqueInput[] | DictionaryWhereUniqueInput;
+  disconnect?: DictionaryWhereUniqueInput[] | DictionaryWhereUniqueInput;
   update?:
-    | LikeUpdateWithWhereUniqueWithoutSentenceInput[]
-    | LikeUpdateWithWhereUniqueWithoutSentenceInput;
+    | DictionaryUpdateWithWhereUniqueWithoutSentencesInput[]
+    | DictionaryUpdateWithWhereUniqueWithoutSentencesInput;
   upsert?:
-    | LikeUpsertWithWhereUniqueWithoutSentenceInput[]
-    | LikeUpsertWithWhereUniqueWithoutSentenceInput;
-  deleteMany?: LikeScalarWhereInput[] | LikeScalarWhereInput;
+    | DictionaryUpsertWithWhereUniqueWithoutSentencesInput[]
+    | DictionaryUpsertWithWhereUniqueWithoutSentencesInput;
+  deleteMany?: DictionaryScalarWhereInput[] | DictionaryScalarWhereInput;
 }
 
-export interface LikeUpdateWithWhereUniqueWithoutSentenceInput {
-  where: LikeWhereUniqueInput;
-  data: LikeUpdateWithoutSentenceDataInput;
+export interface DictionaryUpdateWithWhereUniqueWithoutSentencesInput {
+  where: DictionaryWhereUniqueInput;
+  data: DictionaryUpdateWithoutSentencesDataInput;
 }
 
-export interface LikeUpdateWithoutSentenceDataInput {
-  user?: UserUpdateOneRequiredWithoutLikesInput;
+export interface DictionaryUpdateWithoutSentencesDataInput {
+  user?: UserUpdateOneRequiredWithoutDictionaryInput;
 }
 
-export interface LikeUpsertWithWhereUniqueWithoutSentenceInput {
-  where: LikeWhereUniqueInput;
-  update: LikeUpdateWithoutSentenceDataInput;
-  create: LikeCreateWithoutSentenceInput;
+export interface DictionaryUpsertWithWhereUniqueWithoutSentencesInput {
+  where: DictionaryWhereUniqueInput;
+  update: DictionaryUpdateWithoutSentencesDataInput;
+  create: DictionaryCreateWithoutSentencesInput;
 }
 
-export interface LikeScalarWhereInput {
+export interface DictionaryScalarWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -651,31 +639,15 @@ export interface LikeScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
-  AND?: LikeScalarWhereInput[] | LikeScalarWhereInput;
-  OR?: LikeScalarWhereInput[] | LikeScalarWhereInput;
-  NOT?: LikeScalarWhereInput[] | LikeScalarWhereInput;
+  AND?: DictionaryScalarWhereInput[] | DictionaryScalarWhereInput;
+  OR?: DictionaryScalarWhereInput[] | DictionaryScalarWhereInput;
+  NOT?: DictionaryScalarWhereInput[] | DictionaryScalarWhereInput;
 }
 
-export interface SentenceUpsertWithWhereUniqueWithoutUserInput {
+export interface SentenceUpsertWithWhereUniqueWithoutAuthorInput {
   where: SentenceWhereUniqueInput;
-  update: SentenceUpdateWithoutUserDataInput;
-  create: SentenceCreateWithoutUserInput;
+  update: SentenceUpdateWithoutAuthorDataInput;
+  create: SentenceCreateWithoutAuthorInput;
 }
 
 export interface SentenceScalarWhereInput {
@@ -782,80 +754,85 @@ export interface SentenceUpdateManyDataInput {
   label?: String;
 }
 
-export interface UserUpsertWithoutLikesInput {
-  update: UserUpdateWithoutLikesDataInput;
-  create: UserCreateWithoutLikesInput;
+export interface UserUpsertWithoutDictionaryInput {
+  update: UserUpdateWithoutDictionaryDataInput;
+  create: UserCreateWithoutDictionaryInput;
 }
 
-export interface SentenceUpdateOneRequiredWithoutLikesInput {
-  create?: SentenceCreateWithoutLikesInput;
-  update?: SentenceUpdateWithoutLikesDataInput;
-  upsert?: SentenceUpsertWithoutLikesInput;
-  connect?: SentenceWhereUniqueInput;
+export interface SentenceUpdateManyWithoutDictionariesInput {
+  create?:
+    | SentenceCreateWithoutDictionariesInput[]
+    | SentenceCreateWithoutDictionariesInput;
+  delete?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
+  connect?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
+  set?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
+  disconnect?: SentenceWhereUniqueInput[] | SentenceWhereUniqueInput;
+  update?:
+    | SentenceUpdateWithWhereUniqueWithoutDictionariesInput[]
+    | SentenceUpdateWithWhereUniqueWithoutDictionariesInput;
+  upsert?:
+    | SentenceUpsertWithWhereUniqueWithoutDictionariesInput[]
+    | SentenceUpsertWithWhereUniqueWithoutDictionariesInput;
+  deleteMany?: SentenceScalarWhereInput[] | SentenceScalarWhereInput;
+  updateMany?:
+    | SentenceUpdateManyWithWhereNestedInput[]
+    | SentenceUpdateManyWithWhereNestedInput;
 }
 
-export interface SentenceUpdateWithoutLikesDataInput {
+export interface SentenceUpdateWithWhereUniqueWithoutDictionariesInput {
+  where: SentenceWhereUniqueInput;
+  data: SentenceUpdateWithoutDictionariesDataInput;
+}
+
+export interface SentenceUpdateWithoutDictionariesDataInput {
   english?: String;
   korean?: String;
   source?: String;
   label?: String;
-  user?: UserUpdateOneRequiredWithoutSentencesInput;
+  author?: UserUpdateOneRequiredWithoutMySentencesInput;
 }
 
-export interface UserUpdateOneRequiredWithoutSentencesInput {
-  create?: UserCreateWithoutSentencesInput;
-  update?: UserUpdateWithoutSentencesDataInput;
-  upsert?: UserUpsertWithoutSentencesInput;
+export interface UserUpdateOneRequiredWithoutMySentencesInput {
+  create?: UserCreateWithoutMySentencesInput;
+  update?: UserUpdateWithoutMySentencesDataInput;
+  upsert?: UserUpsertWithoutMySentencesInput;
   connect?: UserWhereUniqueInput;
 }
 
-export interface UserUpdateWithoutSentencesDataInput {
+export interface UserUpdateWithoutMySentencesDataInput {
   email?: String;
   username?: String;
   avatar?: String;
   password?: String;
   name?: String;
-  likes?: LikeUpdateManyWithoutUserInput;
+  dictionary?: DictionaryUpdateOneRequiredWithoutUserInput;
 }
 
-export interface LikeUpdateManyWithoutUserInput {
-  create?: LikeCreateWithoutUserInput[] | LikeCreateWithoutUserInput;
-  delete?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  connect?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  set?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  disconnect?: LikeWhereUniqueInput[] | LikeWhereUniqueInput;
-  update?:
-    | LikeUpdateWithWhereUniqueWithoutUserInput[]
-    | LikeUpdateWithWhereUniqueWithoutUserInput;
-  upsert?:
-    | LikeUpsertWithWhereUniqueWithoutUserInput[]
-    | LikeUpsertWithWhereUniqueWithoutUserInput;
-  deleteMany?: LikeScalarWhereInput[] | LikeScalarWhereInput;
+export interface DictionaryUpdateOneRequiredWithoutUserInput {
+  create?: DictionaryCreateWithoutUserInput;
+  update?: DictionaryUpdateWithoutUserDataInput;
+  upsert?: DictionaryUpsertWithoutUserInput;
+  connect?: DictionaryWhereUniqueInput;
 }
 
-export interface LikeUpdateWithWhereUniqueWithoutUserInput {
-  where: LikeWhereUniqueInput;
-  data: LikeUpdateWithoutUserDataInput;
+export interface DictionaryUpdateWithoutUserDataInput {
+  sentences?: SentenceUpdateManyWithoutDictionariesInput;
 }
 
-export interface LikeUpdateWithoutUserDataInput {
-  sentence?: SentenceUpdateOneRequiredWithoutLikesInput;
+export interface DictionaryUpsertWithoutUserInput {
+  update: DictionaryUpdateWithoutUserDataInput;
+  create: DictionaryCreateWithoutUserInput;
 }
 
-export interface LikeUpsertWithWhereUniqueWithoutUserInput {
-  where: LikeWhereUniqueInput;
-  update: LikeUpdateWithoutUserDataInput;
-  create: LikeCreateWithoutUserInput;
+export interface UserUpsertWithoutMySentencesInput {
+  update: UserUpdateWithoutMySentencesDataInput;
+  create: UserCreateWithoutMySentencesInput;
 }
 
-export interface UserUpsertWithoutSentencesInput {
-  update: UserUpdateWithoutSentencesDataInput;
-  create: UserCreateWithoutSentencesInput;
-}
-
-export interface SentenceUpsertWithoutLikesInput {
-  update: SentenceUpdateWithoutLikesDataInput;
-  create: SentenceCreateWithoutLikesInput;
+export interface SentenceUpsertWithWhereUniqueWithoutDictionariesInput {
+  where: SentenceWhereUniqueInput;
+  update: SentenceUpdateWithoutDictionariesDataInput;
+  create: SentenceCreateWithoutDictionariesInput;
 }
 
 export interface SentenceCreateInput {
@@ -863,8 +840,8 @@ export interface SentenceCreateInput {
   korean: String;
   source?: String;
   label?: String;
-  user: UserCreateOneWithoutSentencesInput;
-  likes?: LikeCreateManyWithoutSentenceInput;
+  author: UserCreateOneWithoutMySentencesInput;
+  dictionaries?: DictionaryCreateManyWithoutSentencesInput;
 }
 
 export interface SentenceUpdateInput {
@@ -872,8 +849,8 @@ export interface SentenceUpdateInput {
   korean?: String;
   source?: String;
   label?: String;
-  user?: UserUpdateOneRequiredWithoutSentencesInput;
-  likes?: LikeUpdateManyWithoutSentenceInput;
+  author?: UserUpdateOneRequiredWithoutMySentencesInput;
+  dictionaries?: DictionaryUpdateManyWithoutSentencesInput;
 }
 
 export interface SentenceUpdateManyMutationInput {
@@ -889,8 +866,8 @@ export interface UserCreateInput {
   avatar: String;
   password: String;
   name: String;
-  sentences?: SentenceCreateManyWithoutUserInput;
-  likes?: LikeCreateManyWithoutUserInput;
+  mySentences?: SentenceCreateManyWithoutAuthorInput;
+  dictionary: DictionaryCreateOneWithoutUserInput;
 }
 
 export interface UserUpdateInput {
@@ -899,8 +876,8 @@ export interface UserUpdateInput {
   avatar?: String;
   password?: String;
   name?: String;
-  sentences?: SentenceUpdateManyWithoutUserInput;
-  likes?: LikeUpdateManyWithoutUserInput;
+  mySentences?: SentenceUpdateManyWithoutAuthorInput;
+  dictionary?: DictionaryUpdateOneRequiredWithoutUserInput;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -911,15 +888,15 @@ export interface UserUpdateManyMutationInput {
   name?: String;
 }
 
-export interface LikeSubscriptionWhereInput {
+export interface DictionarySubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: LikeWhereInput;
-  AND?: LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput;
-  OR?: LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput;
-  NOT?: LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput;
+  node?: DictionaryWhereInput;
+  AND?: DictionarySubscriptionWhereInput[] | DictionarySubscriptionWhereInput;
+  OR?: DictionarySubscriptionWhereInput[] | DictionarySubscriptionWhereInput;
+  NOT?: DictionarySubscriptionWhereInput[] | DictionarySubscriptionWhereInput;
 }
 
 export interface SentenceSubscriptionWhereInput {
@@ -948,28 +925,38 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Like {
+export interface Dictionary {
   id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
 }
 
-export interface LikePromise extends Promise<Like>, Fragmentable {
+export interface DictionaryPromise extends Promise<Dictionary>, Fragmentable {
   id: () => Promise<ID_Output>;
   user: <T = UserPromise>() => T;
-  sentence: <T = SentencePromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
+  sentences: <T = FragmentableArray<Sentence>>(args?: {
+    where?: SentenceWhereInput;
+    orderBy?: SentenceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface LikeSubscription
-  extends Promise<AsyncIterator<Like>>,
+export interface DictionarySubscription
+  extends Promise<AsyncIterator<Dictionary>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   user: <T = UserSubscription>() => T;
-  sentence: <T = SentenceSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  sentences: <T = Promise<AsyncIterator<SentenceSubscription>>>(args?: {
+    where?: SentenceWhereInput;
+    orderBy?: SentenceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface User {
@@ -990,7 +977,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   avatar: () => Promise<String>;
   password: () => Promise<String>;
   name: () => Promise<String>;
-  sentences: <T = FragmentableArray<Sentence>>(args?: {
+  mySentences: <T = FragmentableArray<Sentence>>(args?: {
     where?: SentenceWhereInput;
     orderBy?: SentenceOrderByInput;
     skip?: Int;
@@ -999,15 +986,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  likes: <T = FragmentableArray<Like>>(args?: {
-    where?: LikeWhereInput;
-    orderBy?: LikeOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  dictionary: <T = DictionaryPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1021,7 +1000,7 @@ export interface UserSubscription
   avatar: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
-  sentences: <T = Promise<AsyncIterator<SentenceSubscription>>>(args?: {
+  mySentences: <T = Promise<AsyncIterator<SentenceSubscription>>>(args?: {
     where?: SentenceWhereInput;
     orderBy?: SentenceOrderByInput;
     skip?: Int;
@@ -1030,15 +1009,7 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  likes: <T = Promise<AsyncIterator<LikeSubscription>>>(args?: {
-    where?: LikeWhereInput;
-    orderBy?: LikeOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
+  dictionary: <T = DictionarySubscription>() => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1059,10 +1030,10 @@ export interface SentencePromise extends Promise<Sentence>, Fragmentable {
   korean: () => Promise<String>;
   source: () => Promise<String>;
   label: () => Promise<String>;
-  user: <T = UserPromise>() => T;
-  likes: <T = FragmentableArray<Like>>(args?: {
-    where?: LikeWhereInput;
-    orderBy?: LikeOrderByInput;
+  author: <T = UserPromise>() => T;
+  dictionaries: <T = FragmentableArray<Dictionary>>(args?: {
+    where?: DictionaryWhereInput;
+    orderBy?: DictionaryOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1081,10 +1052,10 @@ export interface SentenceSubscription
   korean: () => Promise<AsyncIterator<String>>;
   source: () => Promise<AsyncIterator<String>>;
   label: () => Promise<AsyncIterator<String>>;
-  user: <T = UserSubscription>() => T;
-  likes: <T = Promise<AsyncIterator<LikeSubscription>>>(args?: {
-    where?: LikeWhereInput;
-    orderBy?: LikeOrderByInput;
+  author: <T = UserSubscription>() => T;
+  dictionaries: <T = Promise<AsyncIterator<DictionarySubscription>>>(args?: {
+    where?: DictionaryWhereInput;
+    orderBy?: DictionaryOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1095,25 +1066,25 @@ export interface SentenceSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface LikeConnection {
+export interface DictionaryConnection {
   pageInfo: PageInfo;
-  edges: LikeEdge[];
+  edges: DictionaryEdge[];
 }
 
-export interface LikeConnectionPromise
-  extends Promise<LikeConnection>,
+export interface DictionaryConnectionPromise
+  extends Promise<DictionaryConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LikeEdge>>() => T;
-  aggregate: <T = AggregateLikePromise>() => T;
+  edges: <T = FragmentableArray<DictionaryEdge>>() => T;
+  aggregate: <T = AggregateDictionaryPromise>() => T;
 }
 
-export interface LikeConnectionSubscription
-  extends Promise<AsyncIterator<LikeConnection>>,
+export interface DictionaryConnectionSubscription
+  extends Promise<AsyncIterator<DictionaryConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LikeEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLikeSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DictionaryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDictionarySubscription>() => T;
 }
 
 export interface PageInfo {
@@ -1139,35 +1110,37 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface LikeEdge {
-  node: Like;
+export interface DictionaryEdge {
+  node: Dictionary;
   cursor: String;
 }
 
-export interface LikeEdgePromise extends Promise<LikeEdge>, Fragmentable {
-  node: <T = LikePromise>() => T;
+export interface DictionaryEdgePromise
+  extends Promise<DictionaryEdge>,
+    Fragmentable {
+  node: <T = DictionaryPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface LikeEdgeSubscription
-  extends Promise<AsyncIterator<LikeEdge>>,
+export interface DictionaryEdgeSubscription
+  extends Promise<AsyncIterator<DictionaryEdge>>,
     Fragmentable {
-  node: <T = LikeSubscription>() => T;
+  node: <T = DictionarySubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateLike {
+export interface AggregateDictionary {
   count: Int;
 }
 
-export interface AggregateLikePromise
-  extends Promise<AggregateLike>,
+export interface AggregateDictionaryPromise
+  extends Promise<AggregateDictionary>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateLikeSubscription
-  extends Promise<AsyncIterator<AggregateLike>>,
+export interface AggregateDictionarySubscription
+  extends Promise<AsyncIterator<AggregateDictionary>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1298,51 +1271,45 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface LikeSubscriptionPayload {
+export interface DictionarySubscriptionPayload {
   mutation: MutationType;
-  node: Like;
+  node: Dictionary;
   updatedFields: String[];
-  previousValues: LikePreviousValues;
+  previousValues: DictionaryPreviousValues;
 }
 
-export interface LikeSubscriptionPayloadPromise
-  extends Promise<LikeSubscriptionPayload>,
+export interface DictionarySubscriptionPayloadPromise
+  extends Promise<DictionarySubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = LikePromise>() => T;
+  node: <T = DictionaryPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = LikePreviousValuesPromise>() => T;
+  previousValues: <T = DictionaryPreviousValuesPromise>() => T;
 }
 
-export interface LikeSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LikeSubscriptionPayload>>,
+export interface DictionarySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DictionarySubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LikeSubscription>() => T;
+  node: <T = DictionarySubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LikePreviousValuesSubscription>() => T;
+  previousValues: <T = DictionaryPreviousValuesSubscription>() => T;
 }
 
-export interface LikePreviousValues {
+export interface DictionaryPreviousValues {
   id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
 }
 
-export interface LikePreviousValuesPromise
-  extends Promise<LikePreviousValues>,
+export interface DictionaryPreviousValuesPromise
+  extends Promise<DictionaryPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface LikePreviousValuesSubscription
-  extends Promise<AsyncIterator<LikePreviousValues>>,
+export interface DictionaryPreviousValuesSubscription
+  extends Promise<AsyncIterator<DictionaryPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface SentenceSubscriptionPayload {
@@ -1509,11 +1476,11 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "Sentence",
+    name: "Dictionary",
     embedded: false
   },
   {
-    name: "Like",
+    name: "Sentence",
     embedded: false
   }
 ];

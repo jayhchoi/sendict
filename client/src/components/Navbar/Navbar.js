@@ -9,13 +9,13 @@ export default function Navbar() {
           <NavLink to="/">홈</NavLink>
         </li>
         <li>
-          <NavLink to="/dictionary">문장사전</NavLink>
+          <NavLink to="/dictionary">문장 DB</NavLink>
         </li>
         <li>
           <NavLink to="/learn">학습하기</NavLink>
         </li>
         <li>
-          <NavLink to="/review">복습하기</NavLink>
+          <NavLink to="/review">내 문장사전</NavLink>
         </li>
       </ul>
     </nav>

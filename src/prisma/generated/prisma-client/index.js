@@ -9,11 +9,11 @@ var models = [
     embedded: false
   },
   {
-    name: "Sentence",
+    name: "Dictionary",
     embedded: false
   },
   {
-    name: "Like",
+    name: "Sentence",
     embedded: false
   }
 ];
