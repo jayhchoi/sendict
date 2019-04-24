@@ -1,5 +1,5 @@
 import React from 'react'
-import useInput from '../hooks/useInput'
+import useInput from '../../hooks/useInput'
 
 export default function Search() {
   const queryInput = useInput('')

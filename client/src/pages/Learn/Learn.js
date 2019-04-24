@@ -1,27 +1,37 @@
 import React, { useState } from 'react'
-// import { useMutation } from 'react-apollo-hooks'
-// import { toast } from 'react-toastify'
+import { useMutation } from 'react-apollo-hooks'
+import { gql } from 'apollo-boost'
+import { toast } from 'react-toastify'
 import useInput from '../../hooks/useInput'
+
+const ADD_SENTENCE = gql`
+  mutation AddSentence($data: AddSentenceInput!) {
+    addSentence(data: $data) {
+      id
+    }
+  }
+`
 
 export default function Learn() {
   const englishInput = useInput('')
   const koreanInput = useInput('')
   const [sentences, setSentences] = useState([])
-  // const createSentenceMutation = useMutation(CREATE_SENTENCE)
+  const addSentenceMutation = useMutation(ADD_SENTENCE)
 
   const saveSentence = async () => {
-    // try {
-    //   await createSentenceMutation({
-    //     variables: {
-    //       data: {
-    //         english: englishInput.value,
-    //         korean: koreanInput.value
-    //       }
-    //     }
-    //   })
-    // } catch (error) {
-    //   toast.error('입력한 문장을 저장할 수 없습니다')
-    // }
+    try {
+      await addSentenceMutation({
+        variables: {
+          data: {
+            english: englishInput.value,
+            korean: koreanInput.value
+          }
+        }
+      })
+      toast.success('입력한 문장을 DB에 저장했습니다')
+    } catch (error) {
+      toast.error('입력한 문장을 저장할 수 없습니다')
+    }
     setSentences([
       ...sentences,
       {
